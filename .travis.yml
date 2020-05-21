@@ -1,0 +1,22 @@
+# Este script me permitira automatizar el proceso de enviar a producción nuestro proyecto.
+language: node_js # Establecemos el lenguaje con el que vamos a trabajar en este caso node.
+cache: # Establecemos un sistema de cache para esta implementación y reducir el tiempo en que se procesa esta información.
+  directories: 
+  - ~/.npm #le indicamos donde esta nuestro directorio en este caso sobre la raiz npm.
+node_js:
+  - '12' # Ahora le diremos sobre que version de node vamos a trabajar, que este caso es la version estable con la que esta trabajando node.
+git:
+  depth: 3 # Ahora le diremos que utilice git y que va a profundizar hasta el 3er nivel.
+script: 
+  - yarn build # Generar que scripts va a utilizar, en este caso cual va a ejecutarse, en este caso generamos el script que es la implementación que utiliza travis. sera el comando que ejecuta la compilación de nuestro proyecto.
+deploy: # Preparamos el deploy.
+  provider: pages # Donde va vivir nuestro deploy, lo que genere donde lo va a almacenar, en este caso GitHub Pages.
+  edge: true # Permitira manejar un control de las versiones y como se accede por lo que vamos a habilitarlo. 
+  skip-cleanup: true # Estructura de como generaremos cada una de las compilaciones. 
+  keep-history: true # Mantener el historial.
+  github-token: $GITHUB_TOKEN # El token que nos permitira conectarnos con GitHub.
+  local-dir: dist/ # Directorio sobre el cual vamos a trabajar.
+  target-brach: gh-pages # el branch sobre el cual vamos a guardar estos elementos, la documentación de GitHub nos dice que se debe llamar gh-pages.
+  commit_message: "Deploy Release" # Cocaremos el nombre al commit que será generado por medio de travis.
+on:
+    branch: master # Sobre quien va a actuar (sobre la rama principal).
